@@ -1,0 +1,62 @@
+--Item 01
+
+select 
+	u.nm_usuario, --Nome Usuário;
+	e.nm_logradouro, -- Logradouro; 
+	e.nm_bairro, -- Bairro;
+    e.nu_logradouro, -- Número Logradouro; 
+    u.nu_telefone_1, -- Telefone: há dois telefones poderiase utilizar um coalesce caso o primeiro fosse nulo ou mesmo concatenar os dois com o ddd;
+    u.nu_cpf, --CPF;
+	u.nm_login, -- Login; 
+	u.nm_senha, -- Senha;
+	c.nm_credor,-- Nome Credor; 
+	c.nu_telefone_1, --Telefone Credor: há dois telefones poderiase utilizar um coalesce caso o primeiro fosse nulo ou mesmo concatenar os dois com o ddd; 
+	c.ds_email --E-mail Credor;
+from usuarios u
+	inner join enderecos e on u.id_endereco=e.id_endereco
+	inner join credores c on u.id_credor=c.id_credor
+where u.id_usuario = ?idUsuario;
+____________________________________________________________
+
+--Item 02
+
+select 
+	max(e.nu_logradouro), -- maior Número Logradouro; 
+	min(c.nu_matricula) -- menor número de matricula.
+from usuarios u
+	inner join enderecos e on u.id_endereco=e.id_endereco;
+____________________________________________________________
+
+--Item 03
+
+delete from enderecos where id_endereco=?idEndereco;
+delete from usuarios where id_usuario=?idusuario;
+delete from credores where id_credor=?idCredor;
+____________________________________________________________
+
+--Item 04;
+
+insert into credores (
+id_credor, tp_credor ,nu_cnpj, nu_cpf, nm_credor, ds_email, nu_ddd_1, nu_telefone_1, nu_ddd_2, nu_telefone_2, id_endereco, in_ativo, nu_ddi_1, nu_ddi_2, cd_credencial, dt_vigencia_ini, dt_vigencia_fim, id_periodo_fatura, id_usuario_resp, nm_funcao, id_usuario_atualiza, dt_ult_atualiza
+)
+values(
+?idCredor, ?tpCredor , ?nuCnpj, ?nuCpf, ?nmCredor, ?dsEmail, ?nuDdd1, ?nuRelefone1, ?nuDdd2, ?nuTelefone2, ?idEndereco, ?inAtivo, ?nuDdi1, ?nuDdi2, ?cdCredencial, ?dtVigenciaIni, ?dtVigenciaFim, ?idPeriodoFatura, ?idUsuarioResp, ?nmFuncao, ?idUsuarioAtualiza, ?dtUltAtualiza);
+);
+
+____________________________________________________________
+
+--Item 05
+
+-- Considerando alterar o endereços em sim e não a referencia do endereço na tabela usuarios;
+-- Por isso o id_endereco não foi atualizado na tabela usuarios.
+
+update usuarios
+set nm_usuario = ?nmUsuario,
+	ds_email = ?dsEmail,
+where id_usuario = ?idUsuario;
+
+update enderecos
+set nm_logradouro = ?nmLogradouro,
+	nu_logradouro = ?nuLogradouro,
+where id_usuario = ?idUsuario;
+
