@@ -1,0 +1,18 @@
+--1º
+
+select 
+	u.nm_usuario, --Nome Usuário;
+	e.nm_logradouro, -- Logradouro; 
+	e.nm_bairro, -- Bairro;
+    e.nu_logradouro, -- Número Logradouro; 
+    u.nu_telefone_1, -- Telefone: há dois telefones poderiase utilizar um coalesce caso o primeiro fosse nulo ou mesmo concatenar os dois com o ddd;
+    u.nu_cpf, --CPF;
+	u.nm_login, -- Login; 
+	u.nm_senha, -- Senha;
+	c.nm_credor,-- Nome Credor; 
+	c.nu_telefone_1, --Telefone Credor: há dois telefones poderiase utilizar um coalesce caso o primeiro fosse nulo ou mesmo concatenar os dois com o ddd; 
+	c.ds_email --E-mail Credor;
+from usuarios u
+	inner join enderecos e on u.id_endereco=e.id_endereco
+	inner join credores c on u.id_credor=c.id_credor
+where u.id_usuario = ?idUsuario;
